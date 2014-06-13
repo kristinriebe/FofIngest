@@ -17,7 +17,7 @@ create table FOF (
     disp float not null,
     disp_v float not null,
     delta float not null, 
-    spin float not null, -- 17
+    spin float not null,
     angMom_x float not null,
     angMom_y float not null, 
     angMom_z float not null,

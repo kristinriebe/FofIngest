@@ -23,7 +23,7 @@
  */
 
 /* New features: 
- * - allow to skip first rows and start somewhere in between, usign startRow and maxRows
+ * - allow to skip first rows and start somewhere in between, using startRow and maxRows
  *   => can patch missing halos in the database!!! :-)
  */
 
@@ -52,6 +52,7 @@ int main (int argc, const char * argv[])
     int ngrid;
     float aexpn;
     float box;
+    double idfactor;
     
     // allow to use only some part of the data file, 
     // i.e. specify offset and maximum number of rows:
@@ -121,11 +122,12 @@ int main (int argc, const char * argv[])
                 ("aexpn,a", po::value<float>(&aexpn)->default_value(1.0), "expansion factor a")
                 ("level,l", po::value<int32_t>(&level)->default_value(0), "level of linking length (needed for fofIds, top: 0)")
                 ("box,b", po::value<float>(&box)->default_value(0.0), "box size (same unit as coordinates in data file)")
-                ("nlimit,n", po::value<int32_t>(&nlimit)->default_value(0), "minimum number of particles in fof group (smaller groups will be ignored))")
+                ("nlimit,n", po::value<int32_t>(&nlimit)->default_value(0), "minimum number of particles in fof group (stop reading when reaching smaller groups, assumes rows are sorted by number of particles!))")
                 ("ngrid,g", po::value<int32_t>(&ngrid)->default_value(1024), "number of cells for positional grid)")
                 ("startRow,i", po::value<int32_t>(&startRow)->default_value(0), "start reading at this initial row number (default 0)")
                 ("maxRows,m", po::value<int32_t>(&maxRows)->default_value(-1), "max. number of rows to be read (default -1 for all rows)")
                 ("swap,w", po::value<int32_t>(&swap)->default_value(0), "flag for byte swapping (default 0)")
+                ("idfactor,I", po::value<double>(&idfactor)->default_value(1.e11), "factor for calculating fofId for each FOF group")
                 ("resumeMode,R", po::value<bool>(&resumeMode)->default_value(0), "try to resume ingest on failed connection (turns off transactions)? [default: 0]")                
                 ;
 
@@ -187,7 +189,10 @@ int main (int argc, const char * argv[])
     
     //startRow = 27989526;
     //maxRows = 100;
-    FofReader * thisReader = new FofReader(dataFile, swap, snapnum, aexpn, level, box, nlimit, ngrid, startRow, maxRows);
+
+    //idfactor=1.e11;
+
+    FofReader * thisReader = new FofReader(dataFile, swap, snapnum, aexpn, level, box, nlimit, ngrid, startRow, maxRows, idfactor);
     
     dbServer = adaptorFac.getDBAdaptors(system);
     

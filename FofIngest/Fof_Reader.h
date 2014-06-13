@@ -97,6 +97,7 @@ namespace Fof {
         int phkey;
         
         // to be passed on from main
+        double idfactor; // factor to multiply snapnum with for getting the correct ids
         float box;	// box size for periodic boundary conditions
         float aexpn; 	// expansion factor of the universe
         int nlimit;     // minimum number of particles in halo/group (lkl)
@@ -107,7 +108,7 @@ namespace Fof {
           
     public:
         FofReader();
-        FofReader(std::string newFileName, int swap, int snapnum, float aexpn, int level, float box, int nlimit, int ngrid, int startRow, int maxRows);        
+        FofReader(std::string newFileName, int swap, int snapnum, float aexpn, int level, float box, int nlimit, int ngrid, int startRow, int maxRows, double idfactor);
         ~FofReader();
 
         void openFile(std::string newFileName);

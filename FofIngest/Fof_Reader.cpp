@@ -32,7 +32,7 @@ namespace Fof {
         //currRow = -1;
     }
     
-    FofReader::FofReader(std::string newFileName, int newSwap, int newSnapnum, float newAexpn, int newLevel, float newBox, int newNlimit, int newNgrid, int newStartRow, int newMaxRows) {          
+    FofReader::FofReader(std::string newFileName, int newSwap, int newSnapnum, float newAexpn, int newLevel, float newBox, int newNlimit, int newNgrid, int newStartRow, int newMaxRows, double newIdfactor) {          
         // this->box = box;     
         swap = newSwap;
         snapnum = newSnapnum;
@@ -43,6 +43,7 @@ namespace Fof {
         ngrid = newNgrid;
         startRow = newStartRow;
         maxRows = newMaxRows;
+        idfactor = newIdfactor;
         
         currRow = 0;
         
@@ -143,7 +144,7 @@ namespace Fof {
         assignInt(  &ispecies[3], &memchunk[2*sizeof(int)+28*sizeof(float)+3*sizeof(int)], swap);
         assignInt(  &ispecies[4], &memchunk[2*sizeof(int)+28*sizeof(float)+4*sizeof(int)], swap);
         assignInt(  &ispecies[5], &memchunk[2*sizeof(int)+28*sizeof(float)+5*sizeof(int)], swap);
-        
+               
         currRow++;
 
         // stop reading/ingesting, if number of particles (lkl) gets smaller than 20
@@ -340,8 +341,8 @@ namespace Fof {
         } else if (thisItem->getDataObjName().compare("Col39") == 0) {
             *(int*)(result) = NInFile;
         } else if (thisItem->getDataObjName().compare("Col40") == 0) {
-            fofId = (long int) ( (snapnum*10+level)*1.e11 + NInFile );
-            //printf("fofId: %ld\n", fofId);
+            fofId = (long int) ( (snapnum*10+level)*idfactor + NInFile );
+            //printf("fofId: %ld\n", fofId);*1.e11
             *(long int*)(result) = fofId;
         } else if (thisItem->getDataObjName().compare("Col41") == 0) {
             ix = (int) floor(x/box*ngrid);
