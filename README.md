@@ -29,39 +29,38 @@ so each record is wrapped by a leading and trailing (4 byte) integer.
 Each binary file is usually accompanied by an ascii-header file  (...info), 
 which contains all the information about boxsize, redshift, etc. 
 FofIngest won't read this file, but expects you to provide the necessary information
-as command line arguments. See FofReader.cpp for options (or use the help flag) to 
-get a list of options.
+as command line arguments. See FofReader.cpp for options (or use the help flag) to get a list of options.
 
 A data file structured as follows:
 
 * one row per FOF group, containing following columns (4 byte int or 4 byte float each):
-lkl         int     number of particles
-iadr        int      
-rc1         float   x coordinate
-rc2         float   y coordinate
-rc3         float   z coordinate of position in cosmological box
-vc1         float   velocity components
-vc2         float
-vc3         float
-total_mass  float   mass of all group particles
-xv1         float   components of angular momentum vector
-xv2         float   
-xv3         float   
-xlambda     float   can be used to calculate the spin parameter
-disp        float   dispersion
-vdisp       float   velocity dispersion
-root1       float   eigenvalues
-root2       float
-root3       float
-vol8        float   spherical volume corresponding to FOF group
-delta       float   overdensity (mass/volume) in terms of background density
-e_kin       float   kinetic energy
-vect[9]     9*float eigenvectors of inertia tensor
-ispecies[6] 6*int   number of particles per species, 
+Name        |Type    | Description        
+:-----------|:-------|:-------------------
+lkl         |int     |number of particles 
+iadr        |int     |                       
+rc1         |float   |x coordinate  
+rc2         |float   |y coordinate  
+rc3         |float   |z coordinate of position in cosmological box
+vc1         |float   |velocity components 
+vc2         |float   |
+vc3         |float   |
+total_mass  |float   |mass of all group particles
+xv1         |float   |components of angular momentum vector
+xv2         |float   |
+xv3         |float   |
+xlambda     |float   |can be used to calculate the spin parameter
+disp        |float   |dispersion
+vdisp       |float   |velocity dispersion
+root1       |float   |eigenvalues
+root2       |float   |
+root3       |float   |
+vol8        |float   |spherical volume corresponding to FOF group
+delta       |float   |overdensity (mass/volume) in terms of background density
+e_kin       |float   |kinetic energy
+vect[9]     |9*float |eigenvectors of inertia tensor
+ispecies[6] |6*int   |number of particles per species, 
                     for dark matter only: ispecies[1...5] = 0
-...         int     unspecified
-...         int     unspecified
-
+and two additional Fortran-specific integers.
 
 
 Features
@@ -69,34 +68,35 @@ Features
 * Read given datafile and ingest the data as following columns into a database table:
 (see Fof_SchemaMapper.cpp)
 
-database    derived from file column
-np          lkl
-x,y,z       rc1, rc2, rc3 (shifted to box-range, if negative)
-vx,vy,vz    vrc1, vrc2, vrc3
-mass        total_mass
-angmom_x    xv1
-angmom_y    xv2
-angmom_z    xv3
-angmom      sqrt(xv1*xv1 + xv2*xv2 + xv3*xv3)
-disp        disp
-disp_v      vdisp
-axis1       root1
-axis2       root2
-axis3       root3
-delta       delta
-axis1_x,... vect[0:2]
-axis2_x,... vect[3:5]
-axis3_x,... vect[5:8]
-snapnum     [from command line parameters]
-level       [from command line parameters]
-NInFile     [row number in file]
-fofId       [snapnum*10+level)*idfactor + NInFile; idfactor from command line]
-ix,iy,iz    [floor(x/box*ngrid); box and ngrid from command line]
-phkey       [0, must be calculated database-wise]
-size        pow(vol8/(4./3*3.1415136), 0.333333)
-spin        derived from xlambda
+Database column  |  Derived from file column
+-----------------|:-------------------------
+np          |lkl
+x,y,z       |rc1, rc2, rc3 (shifted to box-range, if negative)
+vx,vy,vz    |vrc1, vrc2, vrc3
+mass        |total_mass
+angmom_x    |xv1
+angmom_y    |xv2
+angmom_z    |xv3
+angmom      |sqrt(xv1*xv1 + xv2*xv2 + xv3*xv3)
+disp        |disp
+disp_v      |vdisp
+axis1       |root1
+axis2       |root2
+axis3       |root3
+delta       |delta
+axis1_x,... |vect[0:2]
+axis2_x,... |vect[3:5]
+axis3_x,... |vect[5:8]
+snapnum     |[from command line parameters]
+level       |[from command line parameters]
+NInFile     |[row number in file]
+fofId       |[snapnum*10+level)*idfactor + NInFile; idfactor from command line]
+ix,iy,iz    |[floor(x/box*ngrid); box and ngrid from command line]
+phkey       |[0, must be calculated database-wise]
+size        |pow(vol8/(4./3*3.1415136), 0.333333)
+spin        |derived from xlambda
 
-phkey = Peano-Hilbert key for the grid cell in which the particle is located, 
+`phkey` = Peano-Hilbert key for the grid cell in which the particle is located,   
 		is just filled with 0's, values can be updated via the database 
         server using e.g. libhilbert (https://github.com/adrpar/libhilbert)
 
@@ -118,25 +118,25 @@ Data can be ingested with a command line like this:
 FofIngest/build/FofIngest.x -s mysql -D TestDB -T FOF -U myusername -P mypassword -H 127.0.0.1 -O 3306 -M 50 -a 0.5 -l 2 -b 1000 -n 100 -g 1024 -i 5 -m 20 -I 1.e6 -d fof_example.DAT
 
 Replace myusername and mypassword with your own credentials. 
--s: type of database (e.g. mysql, unix_sqlsrv_odbc)
--D: database name
--T: table name
--H: host
--O: port
--d: data file 
--M: snapshot number (snapnum)
--a: expansion factor
--l: level
--b: boxsize
+-s: type of database (e.g. mysql, unix_sqlsrv_odbc)  
+-D: database name  
+-T: table name  
+-H: host  
+-O: port  
+-d: data file   
+-M: snapshot number (snapnum)  
+-a: expansion factor  
+-l: level  
+-b: boxsize  
 -n: min. number of particles in FOF group; NOTE: code assumes that FOF-groups 
 are sorted by np in decreasing order, will stop reading if number of particles 
-falls below this minimum 
--g: grid cells for ix,iy,iz, per dimension
--i: start at this row
--m: read at most this number of rows
--I: idfactor for fofId calculation
+falls below this minimum   
+-g: grid cells for ix,iy,iz, per dimension  
+-i: start at this row  
+-m: read at most this number of rows  
+-I: idfactor for fofId calculation  
 
-NOTE: One can also use -R 1. This would try to resume the connection, 
+NOTE: One can also use `-R 1`. This would try to resume the connection, 
 if something fails. But then be careful and check later on if all rows were 
 ingested and contain meaningful values. Erroneous rows must be deleted manually. 
 Missing rows can be inserted using startRow and maxRows. That's quite fast, since
@@ -144,8 +144,9 @@ the reader will just jump to the correct position. Finding out which rows are
 missing takes the most time here.
 
 The database table could have been created like this 
-(see also Example/createfoftable-mysql.sql):
+(see also *Example/createfoftable-mysql.sql*):
 
+```mysql
 mysql> use TestDB;
 
 create table FOF (
@@ -187,5 +188,5 @@ create table FOF (
     iz int not null,
     phkey int not null
 )
-
-An example data file is also given in the Example directory.
+```
+An example data file is also given in the *Example* directory.
