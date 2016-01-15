@@ -34,6 +34,7 @@ as command line arguments. See FofReader.cpp for options (or use the help flag) 
 A data file structured as follows:
 
 * one row per FOF group, containing following columns (4 byte int or 4 byte float each):
+
 Name        |Type    | Description        
 :-----------|:-------|:-------------------
 lkl         |int     |number of particles 
@@ -57,8 +58,8 @@ root3       |float   |
 vol8        |float   |spherical volume corresponding to FOF group
 delta       |float   |overdensity (mass/volume) in terms of background density
 e_kin       |float   |kinetic energy
-vect[9]     |9*float |eigenvectors of inertia tensor
-ispecies[6] |6*int   |number of particles per species, 
+vect[9]     |9\*float |eigenvectors of inertia tensor
+ispecies[6] |6\*int   |number of particles per species, 
                     for dark matter only: ispecies[1...5] = 0
 and two additional Fortran-specific integers.
 
