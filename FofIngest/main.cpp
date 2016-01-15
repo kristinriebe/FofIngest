@@ -72,7 +72,7 @@ int main (int argc, const char * argv[])
     uint32_t outputFreq;
 
 //    bool greedyDelim;
-//    bool isDryRun;
+    bool isDryRun = false;
     bool resumeMode;
     
     DBServer::DBAbstractor * dbServer;
@@ -235,6 +235,7 @@ int main (int argc, const char * argv[])
     
     // setup resume option, if desired
     fofIngestor->setResumeMode(resumeMode); 
+    fofIngestor->setIsDryRun(isDryRun);
     
    
     //now ingest data after setup
