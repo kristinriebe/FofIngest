@@ -59,8 +59,8 @@ vol8        |float   |spherical volume corresponding to FOF group
 delta       |float   |overdensity (mass/volume) in terms of background density
 e_kin       |float   |kinetic energy
 vect[9]     |9\*float |eigenvectors of inertia tensor
-ispecies[6] |6\*int   |number of particles per species, 
-                    for dark matter only: ispecies[1...5] = 0
+ispecies[6] |6\*int   |number of particles per species, for dark matter only: ispecies[1...5] = 0
+
 and two additional Fortran-specific integers.
 
 
