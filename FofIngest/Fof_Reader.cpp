@@ -1,7 +1,7 @@
 /*  
- *  Copyright (c) 2012, Adrian M. Partl <apartl@aip.de>, 
- *			Kristin Riebe <kriebe@aip.de>,
- *                      eScience team AIP Potsdam
+ *  Copyright (c) 2016, Adrian M. Partl <apartl@aip.de>,
+ *                      Kristin Riebe <kriebe@aip.de>,
+ *                      E-Science team AIP Potsdam
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>	// sqrt, pow
+#include <math.h>   // sqrt, pow
 #include "fofingest_error.h"
 
 #include "Fof_Reader.h"
@@ -37,7 +37,7 @@ namespace Fof {
         swap = newSwap;
         snapnum = newSnapnum;
         aexpn = newAexpn;
-        level = newLevel - 1;	// want to start with 0!!
+        level = newLevel - 1;  // want to start with 0!!
         box = newBox;
         nlimit = newNlimit;
         ngrid = newNgrid;
@@ -154,16 +154,16 @@ namespace Fof {
             return 0;
         }
         
-	// stop after reading maxRows, but only if it is not -1
-	// Note: Could this be accelerated? It's unnecessary most of the time,
-	// but now it is evaluated for each row ...
+        // stop after reading maxRows, but only if it is not -1
+        // Note: Could this be accelerated? It's unnecessary most of the time,
+        // but now it is evaluated for each row ...
         if (maxRows != -1) {
             if (currRow-startRow > maxRows) {
                 printf("Maximum number of rows to be ingested is reached (%d).\n", maxRows);
                 return 0;
-	    }
-	}
-	
+            }
+        }
+
         return 1;       
     }
     
@@ -251,7 +251,7 @@ namespace Fof {
         //the variables are declared already in Fof_Reader.h 
         //and the values were read in getNextRow()
        
-        NInFile = currRow-1;	// start counting rows with 0       
+        NInFile = currRow-1;    // start counting rows with 0
         
         if(thisItem->getDataObjName().compare("Col1") == 0) {            
             *(int*)(result) = lkl;

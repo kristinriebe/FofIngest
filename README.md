@@ -1,13 +1,11 @@
 FofIngest
 ==========
 
-This code uses the DBIngestor library (https://github.com/adrpar/DBIngestor) to ingest 
-Friends-Of-Friends (FOF) catalogues into a database.
+This code uses the DBIngestor library (https://github.com/adrpar/DBIngestor) to ingest Friends-Of-Friends (FOF) catalogues into a database.
 
-It assumes that these catalogues come in the binary format used by Stefan Gottloeber. 
-Thus it is very specific, but can serve as an example for how to use the DBIngestor library and write your own binary reader.
+It assumes that these catalogues come in the binary format used by Stefan Gottl&ouml;ber. Thus it is very specific, but can serve as an example for how to use the DBIngestor library and write your own binary reader.
 
-The code is based on the HelloWord program delivered with the DBIngestor.
+The code is based on the *HelloWord* program delivered with the DBIngestor.
 
 For any questions, please contact me at
 Kristin Riebe, kriebe@aip.de
@@ -113,29 +111,31 @@ see INSTALL
 Example
 --------
 An example data file and create-table statement are given in the 
-Example directory.
+*Example* directory.
 Data can be ingested with a command line like this:
 
+```
 FofIngest/build/FofIngest.x -s mysql -D TestDB -T FOF -U myusername -P mypassword -H 127.0.0.1 -O 3306 -M 50 -a 0.5 -l 2 -b 1000 -n 100 -g 1024 -i 5 -m 20 -I 1.e6 -d fof_example.DAT
+```
 
-Replace myusername and mypassword with your own credentials. 
--s: type of database (e.g. mysql, unix_sqlsrv_odbc)  
--D: database name  
--T: table name  
--H: host  
--O: port  
--d: data file   
--M: snapshot number (snapnum)  
--a: expansion factor  
--l: level  
--b: boxsize  
--n: min. number of particles in FOF group; NOTE: code assumes that FOF-groups 
-are sorted by np in decreasing order, will stop reading if number of particles 
-falls below this minimum   
--g: grid cells for ix,iy,iz, per dimension  
--i: start at this row  
--m: read at most this number of rows  
--I: idfactor for fofId calculation  
+Replace *myusername* and *mypassword* with your own credentials for your own database. 
+
+The possible options are:  
+`-s`: type of database (e.g. mysql, unix_sqlsrv_odbc)  
+`-D`: database name  
+`-T`: table name  
+`-H`: host  
+`-O`: port  
+`-d`: data file  
+`-M`: snapshot number (snapnum)  
+`-a`: expansion factor  
+`-l`: level  
+`-b`: boxsize  
+`-n`: min. number of particles in FOF group; NOTE: code assumes that FOF-groups are sorted by np in decreasing order, will stop reading if number of particles falls below this minimum   
+`-g`: grid cells for ix,iy,iz, per dimension  
+`-i`: start at this row  
+`-m`: read at most this number of rows  
+`-I`: idfactor for fofId calculation  
 
 NOTE: One can also use `-R 1`. This would try to resume the connection, 
 if something fails. But then be careful and check later on if all rows were 
